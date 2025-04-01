@@ -1,7 +1,7 @@
 package com.example.scheduleprojectdevelop.controller;
 
-import com.example.scheduleprojectdevelop.dto.ScheduleRequestDto;
-import com.example.scheduleprojectdevelop.dto.ScheduleResponseDto;
+import com.example.scheduleprojectdevelop.dto.schedule.ScheduleRequestDto;
+import com.example.scheduleprojectdevelop.dto.schedule.ScheduleResponseDto;
 import com.example.scheduleprojectdevelop.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class ScheduleController {
     //일정 생성
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> saveSchedule(@RequestBody ScheduleRequestDto requestDto) {
-        ScheduleResponseDto scheduleResponseDto = scheduleService.saveSchedule(requestDto.getAuthor(), requestDto.getTitle(), requestDto.getContents());
+        ScheduleResponseDto scheduleResponseDto = scheduleService.saveSchedule(requestDto.getTitle(), requestDto.getContents(), requestDto.getUserId());
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.CREATED);
     }
 
@@ -46,7 +46,7 @@ public class ScheduleController {
             @PathVariable Long id,
             @RequestBody ScheduleRequestDto dto
     ) {
-        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContents(), dto.getAuthor()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContents()), HttpStatus.OK);
     }
 
     //일정 삭제

@@ -17,28 +17,30 @@ public class Schedule extends BaseEntity {
     @Column(nullable = false)
     private String contents;
 
-    @Column(nullable = false)
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Schedule (String title, String contents, String author) {
+    public Schedule (String title, String contents) {
         this.title = title;
         this.contents = contents;
-        this.author = author;
     }
 
     public Schedule() {
     }
 
     //일정 수정
-    public void update(String title, String contents, String author) {
+    public void update(String title, String contents) {
         if(title != null) {
             this.title = title;
         }
         if(contents != null) {
             this.contents = contents;
         }
-        if(author != null) {
-            this.author = author;
-        }
+    }
+
+    //유저 지정
+    public void setUser(User user) {
+        this.user = user;
     }
 }
