@@ -29,4 +29,12 @@ public class UserController {
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
+    //유저 수정
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserResponseDto> updateUser(
+            @PathVariable Long id,
+            @RequestBody UserRequestDto requestDto
+    ) {
+        return new ResponseEntity<>(userService.updateUser(id, requestDto.getUsername(), requestDto.getEmail()), HttpStatus.OK);
+    }
 }

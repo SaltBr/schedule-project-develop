@@ -24,4 +24,14 @@ public class User extends BaseEntity{
 
     public User() {
     }
+
+    //유저 정보 업데이트
+    public void update(String username, String email) {
+        if(username != null) {
+            this.username = username;
+        }
+        if(email != null) {
+            this.email = email;
+        }
+    }
 }

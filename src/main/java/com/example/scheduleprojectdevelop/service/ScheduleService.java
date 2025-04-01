@@ -21,7 +21,7 @@ public class ScheduleService {
     //일정 저장
     public ScheduleResponseDto saveSchedule(String title, String contents, Long userId) {
         //일정 저장 전, 해당 아이디 유저가 존재하는지 확인
-        User findUser = userRepository.findUserById(userId);
+        User findUser = userRepository.findUserByIdOrElseThrow(userId);
 
         Schedule schedule = new Schedule (title, contents);
         schedule.setUser(findUser);

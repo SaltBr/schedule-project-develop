@@ -6,6 +6,7 @@ import com.example.scheduleprojectdevelop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -35,4 +36,12 @@ public class UserService {
         User findUser = optionalUser.get();
         return new UserResponseDto(findUser.getId(), findUser.getUsername(), findUser.getEmail());
     }
+
+    //유저 수정
+    @Transactional
+    public UserResponseDto updateUser(Long id, String username, String email) {
+        User user = userRepository.findUserByIdOrElseThrow(id);
+        user.update(username, email);
+        return new UserResponseDto(id, user.getUsername(), user.getEmail());    }
+
 }
