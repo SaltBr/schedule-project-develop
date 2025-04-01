@@ -18,7 +18,7 @@ public class UserController {
     //유저 생성
     @PostMapping("/signup")
     public ResponseEntity<UserResponseDto> signUp(@RequestBody UserRequestDto requestDto){
-        UserResponseDto userResponseDto = userService.signUp(requestDto.getUsername(), requestDto.getEmail());
+        UserResponseDto userResponseDto = userService.signUp(requestDto.getUsername(), requestDto.getEmail(), requestDto.getPassword());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -35,13 +35,16 @@ public class UserController {
             @PathVariable Long id,
             @RequestBody UserRequestDto requestDto
     ) {
-        return new ResponseEntity<>(userService.updateUser(id, requestDto.getUsername(), requestDto.getEmail()), HttpStatus.OK);
+        return new ResponseEntity<>(userService.updateUser(id, requestDto.getUsername(), requestDto.getEmail(), requestDto.getPassword()), HttpStatus.OK);
     }
 
     //유저 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable Long id,
+            @RequestBody UserRequestDto requestDto
+    ){
+        userService.deleteUser(id, requestDto.getPassword());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
