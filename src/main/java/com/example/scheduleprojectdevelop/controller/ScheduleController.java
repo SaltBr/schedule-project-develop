@@ -26,16 +26,16 @@ public class ScheduleController {
 
     //일정 전체 조회
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> findAll() {
-        List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAll();
+    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedule() {
+        List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAllSchedule();
         return new ResponseEntity<>(scheduleResponseDtoList, HttpStatus.OK);
     }
 
     //일정 단건 조회
     @GetMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> findById(@PathVariable Long id) {
+    public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id) {
 
-        ScheduleResponseDto scheduleResponseDto = scheduleService.findById(id);
+        ScheduleResponseDto scheduleResponseDto = scheduleService.findScheduleById(id);
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.OK);
 
     }
@@ -51,8 +51,8 @@ public class ScheduleController {
 
     //일정 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        scheduleService.delete(id);
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
+        scheduleService.deleteSchedule(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

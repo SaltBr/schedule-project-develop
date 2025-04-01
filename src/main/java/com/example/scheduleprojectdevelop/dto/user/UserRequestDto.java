@@ -3,14 +3,12 @@ package com.example.scheduleprojectdevelop.dto.user;
 import lombok.Getter;
 
 @Getter
-public class SignupResponseDto {
+public class UserRequestDto {
 
-    private final Long id;
     private final String username;
     private final String email;
 
-    public SignupResponseDto(Long id, String username, String email){
-        this.id = id;
+    public UserRequestDto(String username, String email) {
         this.username = username;
         this.email = email;
     }

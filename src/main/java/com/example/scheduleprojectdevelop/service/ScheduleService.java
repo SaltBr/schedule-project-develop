@@ -21,7 +21,7 @@ public class ScheduleService {
     //일정 저장
     public ScheduleResponseDto saveSchedule(String title, String contents, Long userId) {
         //일정 저장 전, 해당 아이디 유저가 존재하는지 확인
-        User findUser = userRepository.findUserByUserId(userId);
+        User findUser = userRepository.findUserById(userId);
 
         Schedule schedule = new Schedule (title, contents);
         schedule.setUser(findUser);
@@ -32,7 +32,7 @@ public class ScheduleService {
     }
 
     //전체 조회
-    public List<ScheduleResponseDto> findAll() {
+    public List<ScheduleResponseDto> findAllSchedule() {
 
         return scheduleRepository.findAll()
                 .stream()
@@ -41,22 +41,22 @@ public class ScheduleService {
     }
 
     //단건 조회
-    public ScheduleResponseDto findById(Long id) {
-        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+    public ScheduleResponseDto findScheduleById(Long id) {
+        Schedule findSchedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
         return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getTitle(), findSchedule.getContents());
     }
 
     //일정 수정
     @Transactional
     public ScheduleResponseDto updateSchedule(Long id, String title, String contents) {
-        Schedule schedule = scheduleRepository.findByIdOrElseThrow(id);
+        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
         schedule.update(title, contents);
         return new ScheduleResponseDto(id, schedule.getTitle(), schedule.getContents());    }
 
 
     //일정 삭제
-    public void delete(Long id) {
-        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+    public void deleteSchedule(Long id) {
+        Schedule findSchedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
         scheduleRepository.delete(findSchedule);
     }
 }
