@@ -18,7 +18,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     //유저 생성
-    public UserResponseDto signUp(String username, String email){
+    public UserResponseDto signUp(String username, String email) {
         User user = new User(username, email);
         User savedUser = userRepository.save(user);
         return new UserResponseDto(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail());
@@ -42,6 +42,13 @@ public class UserService {
     public UserResponseDto updateUser(Long id, String username, String email) {
         User user = userRepository.findUserByIdOrElseThrow(id);
         user.update(username, email);
-        return new UserResponseDto(id, user.getUsername(), user.getEmail());    }
+        return new UserResponseDto(id, user.getUsername(), user.getEmail());
+    }
 
+    //유저 삭제
+    public void deleteUser(Long id) {
+        User findUser = userRepository.findUserByIdOrElseThrow(id);
+        userRepository.delete(findUser);
+        //userRepository.deleteById(id); 로 해도 됨
+    }
 }
