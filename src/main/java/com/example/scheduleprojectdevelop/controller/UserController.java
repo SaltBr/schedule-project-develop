@@ -1,12 +1,9 @@
 package com.example.scheduleprojectdevelop.controller;
 
-import com.example.scheduleprojectdevelop.dto.user.LoginRequestDto;
-import com.example.scheduleprojectdevelop.dto.user.LoginResponseDto;
 import com.example.scheduleprojectdevelop.dto.user.UserRequestDto;
 import com.example.scheduleprojectdevelop.dto.user.UserResponseDto;
 import com.example.scheduleprojectdevelop.service.UserService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +48,7 @@ public class UserController {
 
     //유저 생성
     @PostMapping("/signup")
-    public ResponseEntity<UserResponseDto> signUp(@RequestBody UserRequestDto requestDto){
+    public ResponseEntity<UserResponseDto> signUp(@Valid @RequestBody UserRequestDto requestDto){
         UserResponseDto userResponseDto = userService.signUp(requestDto.getUsername(), requestDto.getEmail(), requestDto.getPassword());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

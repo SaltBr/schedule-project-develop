@@ -7,6 +7,7 @@ import com.example.scheduleprojectdevelop.dto.user.UserResponseDto;
 import com.example.scheduleprojectdevelop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class SessionUserController {
 
     @PostMapping("/login")
     public ResponseEntity<UserResponseDto> login(
+            @Valid
             @RequestBody LoginRequestDto dto,
             HttpServletRequest request
     ) {
