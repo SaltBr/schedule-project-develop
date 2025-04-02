@@ -20,7 +20,7 @@ public class UserService {
 
     //로그인
     public LoginResponseDto login(String email, String password) {
-        User foundUser = userRepository.findIdByEmailOrElseThrow(email);
+        User foundUser = userRepository.findUserByEmailOrElseThrow(email);
         if(foundUser.getPassword().equals(password)){
             return new LoginResponseDto(foundUser.getId(), foundUser.getUsername());
         }
