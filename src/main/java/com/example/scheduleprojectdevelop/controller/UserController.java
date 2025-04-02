@@ -1,8 +1,12 @@
 package com.example.scheduleprojectdevelop.controller;
 
+import com.example.scheduleprojectdevelop.dto.user.LoginRequestDto;
+import com.example.scheduleprojectdevelop.dto.user.LoginResponseDto;
 import com.example.scheduleprojectdevelop.dto.user.UserRequestDto;
 import com.example.scheduleprojectdevelop.dto.user.UserResponseDto;
 import com.example.scheduleprojectdevelop.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +18,36 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    //미완성 쿠키 로그인 기능
+//    //로그인
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponseDto> login(
+//            @RequestBody LoginRequestDto request,
+//            HttpServletResponse response
+//    ){
+//        LoginResponseDto responseDto = userService.login(request.getUsername(), request.getPassword());
+//
+//        //로그인 실패
+//        if(responseDto.getId() == null){
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//        //로그인 성공
+//        Cookie cookie = new Cookie("userId", String.valueOf(responseDto.getId()));
+//        response.addCookie(cookie);
+//
+//        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+//    }
+//
+//    //로그아웃
+//    @PostMapping("/logout")
+//    public ResponseEntity<Void> logout(HttpServletResponse response) {
+//        Cookie cookie = new Cookie("userId", null);
+//        cookie.setMaxAge(0);
+//        response.addCookie(cookie);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     //유저 생성
     @PostMapping("/signup")

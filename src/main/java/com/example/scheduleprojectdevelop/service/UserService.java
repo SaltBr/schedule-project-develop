@@ -1,5 +1,6 @@
 package com.example.scheduleprojectdevelop.service;
 
+import com.example.scheduleprojectdevelop.dto.user.LoginResponseDto;
 import com.example.scheduleprojectdevelop.dto.user.UserResponseDto;
 import com.example.scheduleprojectdevelop.entity.User;
 import com.example.scheduleprojectdevelop.repository.UserRepository;
@@ -16,6 +17,16 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    //로그인
+    public LoginResponseDto login(String email, String password) {
+        User foundUser = userRepository.findIdByEmailOrElseThrow(email);
+        if(foundUser.getPassword().equals(password)){
+            return new LoginResponseDto(foundUser.getId(), foundUser.getUsername());
+        }
+        //이메일과 비밀번호가 일치하지 않을 경우 HTTP Status code 401
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "잘못된 입력값입니다");
+    }
 
     //유저 생성
     public UserResponseDto signUp(String username, String email, String password) {
