@@ -2,6 +2,7 @@ package com.example.scheduleprojectdevelop.controller;
 
 import com.example.scheduleprojectdevelop.dto.schedule.ScheduleRequestDto;
 import com.example.scheduleprojectdevelop.dto.schedule.ScheduleResponseDto;
+import com.example.scheduleprojectdevelop.dto.user.UserResponseDto;
 import com.example.scheduleprojectdevelop.service.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,8 @@ public class ScheduleController {
 
     //일정 생성
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> saveSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
-        ScheduleResponseDto scheduleResponseDto = scheduleService.saveSchedule(requestDto.getTitle(), requestDto.getContents(), requestDto.getUserId());
+    public ResponseEntity<ScheduleResponseDto> saveSchedule(@Valid @RequestBody ScheduleRequestDto requestDto,  @SessionAttribute(value = "loginUser") UserResponseDto responseDto) {
+        ScheduleResponseDto scheduleResponseDto = scheduleService.saveSchedule(requestDto.getTitle(), requestDto.getContents(), responseDto.getId());
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.CREATED);
     }
 
@@ -46,15 +47,17 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable Long id,
             @Valid
-            @RequestBody ScheduleRequestDto dto
+            @RequestBody ScheduleRequestDto dto,
+            @SessionAttribute(value = "loginUser") UserResponseDto responseDto
     ) {
-        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContents()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContents(), responseDto.getId()), HttpStatus.OK);
     }
 
     //일정 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
-        scheduleService.deleteSchedule(id);
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @SessionAttribute(value = "loginUser") UserResponseDto responseDto
+    ) {
+        scheduleService.deleteSchedule(id, responseDto.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
