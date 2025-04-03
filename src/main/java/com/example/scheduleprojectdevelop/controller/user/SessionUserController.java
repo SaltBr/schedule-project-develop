@@ -1,4 +1,4 @@
-package com.example.scheduleprojectdevelop.controller;
+package com.example.scheduleprojectdevelop.controller.user;
 
 import com.example.scheduleprojectdevelop.common.Const;
 import com.example.scheduleprojectdevelop.dto.user.LoginRequestDto;

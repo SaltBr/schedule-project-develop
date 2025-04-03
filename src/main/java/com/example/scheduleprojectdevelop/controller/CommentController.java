@@ -18,7 +18,7 @@ public class CommentController {
     //댓글 작성
     @PostMapping
     public ResponseEntity<CommentResponseDto> saveComment(@RequestBody CommentRequestDto requestDto){
-        CommentResponseDto commentResponseDto = commentService.saveComment(requestDto.getContent(), requestDto.getScheduleId());
+        CommentResponseDto commentResponseDto = commentService.saveComment(requestDto.getContent(), requestDto.getScheduleId(), requestDto.getUserId());
         return new ResponseEntity<>(commentResponseDto, HttpStatus.CREATED);
     }
 

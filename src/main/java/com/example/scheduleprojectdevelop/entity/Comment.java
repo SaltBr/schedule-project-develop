@@ -19,6 +19,10 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Comment(String content) {
         this.content = content;
     }
@@ -29,6 +33,11 @@ public class Comment extends BaseEntity {
     //댓글을 남긴 일정 지정
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    //댓글을 남긴 유저 지정
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }
