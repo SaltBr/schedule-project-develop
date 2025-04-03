@@ -1,5 +1,6 @@
 package com.example.scheduleprojectdevelop.service;
 
+import com.example.scheduleprojectdevelop.config.PasswordEncoder;
 import com.example.scheduleprojectdevelop.dto.user.LoginResponseDto;
 import com.example.scheduleprojectdevelop.dto.user.UserResponseDto;
 import com.example.scheduleprojectdevelop.entity.User;
@@ -17,11 +18,12 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     //로그인
     public LoginResponseDto login(String email, String password) {
         User foundUser = userRepository.findUserByEmailOrElseThrow(email);
-        if(foundUser.getPassword().equals(password)){
+        if(passwordEncoder.matches(password, foundUser.getPassword())){
             return new LoginResponseDto(foundUser.getId(), foundUser.getUsername());
         }
         //이메일과 비밀번호가 일치하지 않을 경우 HTTP Status code 401
@@ -30,7 +32,8 @@ public class UserService {
 
     //유저 생성
     public UserResponseDto signUp(String username, String email, String password) {
-        User user = new User(username, email, password);
+        //비밀번호 암호화
+        User user = new User(username, email, passwordEncoder.encode(password));
         User savedUser = userRepository.save(user);
         return new UserResponseDto(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail());
     }
@@ -52,7 +55,7 @@ public class UserService {
     @Transactional
     public UserResponseDto updateUser(Long id, String username, String email, String password) {
         User user = userRepository.findUserByIdOrElseThrow(id);
-        if(user.getPassword().equals(password)){
+        if(passwordEncoder.matches(password, user.getPassword())){
             user.update(username, email);
             return new UserResponseDto(id, user.getUsername(), user.getEmail());
         }
@@ -62,7 +65,7 @@ public class UserService {
     //유저 삭제
     public void deleteUser(Long id, String password) {
         User findUser = userRepository.findUserByIdOrElseThrow(id);
-        if(findUser.getPassword().equals(password)){
+        if(passwordEncoder.matches(password, findUser.getPassword())){
             userRepository.delete(findUser);
             //userRepository.deleteById(id); 로 해도 됨
             return;
