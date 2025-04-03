@@ -43,27 +43,27 @@ public class ScheduleService {
     }
 
     //단건 조회
-    public ScheduleResponseDto findScheduleById(Long id) {
-        Schedule findSchedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+    public ScheduleResponseDto findScheduleById(Long scheduleId) {
+        Schedule findSchedule = scheduleRepository.findScheduleByIdOrElseThrow(scheduleId);
         return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getTitle(), findSchedule.getContents());
     }
 
     //일정 수정
     @Transactional
-    public ScheduleResponseDto updateSchedule(Long id, String title, String contents, Long userId) {
-        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+    public ScheduleResponseDto updateSchedule(Long scheduleId, String title, String contents, Long userId) {
+        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(scheduleId);
         //글 작성자와 현재 로그인된 유저 아이디가 같으면 수정
         if((schedule.getUser().getId()).equals(userId)){
             schedule.update(title, contents);
-            return new ScheduleResponseDto(id, schedule.getTitle(), schedule.getContents());
+            return new ScheduleResponseDto(scheduleId, schedule.getTitle(), schedule.getContents());
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "본인의 글만 수정 가능합니다.");
     }
 
 
     //일정 삭제
-    public void deleteSchedule(Long id, Long userId) {
-        Schedule findSchedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+    public void deleteSchedule(Long scheduleId, Long userId) {
+        Schedule findSchedule = scheduleRepository.findScheduleByIdOrElseThrow(scheduleId);
         //글 작성자와 현재 로그인된 유저의 아이디가 같으면 삭제
         if((findSchedule.getUser().getId()).equals(userId)){
             scheduleRepository.delete(findSchedule);

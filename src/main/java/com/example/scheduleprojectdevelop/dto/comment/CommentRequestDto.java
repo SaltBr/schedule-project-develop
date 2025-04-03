@@ -5,13 +5,9 @@ import lombok.Getter;
 @Getter
 public class CommentRequestDto {
 
-    private final String content;
-    private final Long scheduleId;
-    private final Long userId;
+    private final String contents;
 
-    public CommentRequestDto(String content, Long scheduleId, Long userId) {
-        this.content = content;
-        this.scheduleId = scheduleId;
-        this.userId = userId;
+    public CommentRequestDto(String contents) {
+        this.contents = contents;
     }
 }

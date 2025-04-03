@@ -13,7 +13,7 @@ public class Comment extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String content;
+    private String contents;
 
     @ManyToOne
     @JoinColumn(name = "schedule_id")
@@ -23,8 +23,8 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Comment(String content) {
-        this.content = content;
+    public Comment(String contents) {
+        this.contents = contents;
     }
 
     public Comment() {
@@ -40,5 +40,9 @@ public class Comment extends BaseEntity {
         this.user = user;
     }
 
+    //댓글 수정
+    public void update(String contents){
+        this.contents = contents;
+    }
 }
 

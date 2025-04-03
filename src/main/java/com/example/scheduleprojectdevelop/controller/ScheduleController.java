@@ -21,8 +21,8 @@ public class ScheduleController {
 
     //일정 생성
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> saveSchedule(@Valid @RequestBody ScheduleRequestDto requestDto,  @SessionAttribute(value = "loginUser") UserResponseDto responseDto) {
-        ScheduleResponseDto scheduleResponseDto = scheduleService.saveSchedule(requestDto.getTitle(), requestDto.getContents(), responseDto.getId());
+    public ResponseEntity<ScheduleResponseDto> saveSchedule(@Valid @RequestBody ScheduleRequestDto requestDto,  @SessionAttribute(value = "loginUser") UserResponseDto userResponseDto) {
+        ScheduleResponseDto scheduleResponseDto = scheduleService.saveSchedule(requestDto.getTitle(), requestDto.getContents(), userResponseDto.getId());
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.CREATED);
     }
 
@@ -48,16 +48,16 @@ public class ScheduleController {
             @PathVariable Long id,
             @Valid
             @RequestBody ScheduleRequestDto dto,
-            @SessionAttribute(value = "loginUser") UserResponseDto responseDto
+            @SessionAttribute(value = "loginUser") UserResponseDto userResponseDto
     ) {
-        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContents(), responseDto.getId()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContents(), userResponseDto.getId()), HttpStatus.OK);
     }
 
     //일정 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @SessionAttribute(value = "loginUser") UserResponseDto responseDto
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @SessionAttribute(value = "loginUser") UserResponseDto userResponseDto
     ) {
-        scheduleService.deleteSchedule(id, responseDto.getId());
+        scheduleService.deleteSchedule(id, userResponseDto.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
