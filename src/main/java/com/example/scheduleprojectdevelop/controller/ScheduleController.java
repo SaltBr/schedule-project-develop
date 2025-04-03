@@ -30,7 +30,7 @@ public class ScheduleController {
     @GetMapping
     public ResponseEntity<List<ScheduleResponseDto>> findAllSchedule() {
         List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAllSchedule();
-        return new ResponseEntity<>(scheduleResponseDtoList, HttpStatus.OK);
+        return ResponseEntity.ok(scheduleResponseDtoList);
     }
 
     //일정 단건 조회
@@ -38,7 +38,7 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id) {
 
         ScheduleResponseDto scheduleResponseDto = scheduleService.findScheduleById(id);
-        return new ResponseEntity<>(scheduleResponseDto, HttpStatus.OK);
+        return ResponseEntity.ok(scheduleResponseDto);
 
     }
 
@@ -50,7 +50,8 @@ public class ScheduleController {
             @RequestBody ScheduleRequestDto dto,
             @SessionAttribute(value = "loginUser") UserResponseDto userResponseDto
     ) {
-        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContents(), userResponseDto.getId()), HttpStatus.OK);
+        return ResponseEntity.ok(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContents(), userResponseDto.getId()));
+
     }
 
     //일정 삭제

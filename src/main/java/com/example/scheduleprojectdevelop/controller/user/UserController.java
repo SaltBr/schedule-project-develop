@@ -57,7 +57,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> findUserById(@PathVariable Long id){
         UserResponseDto userResponseDto = userService.findUserById(id);
-        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+        return ResponseEntity.ok(userResponseDto);
     }
 
     //유저 수정
@@ -66,7 +66,7 @@ public class UserController {
             @PathVariable Long id,
             @RequestBody UserRequestDto requestDto
     ) {
-        return new ResponseEntity<>(userService.updateUser(id, requestDto.getUsername(), requestDto.getEmail(), requestDto.getPassword()), HttpStatus.OK);
+        return ResponseEntity.ok(userService.updateUser(id, requestDto.getUsername(), requestDto.getEmail(), requestDto.getPassword()));
     }
 
     //유저 삭제

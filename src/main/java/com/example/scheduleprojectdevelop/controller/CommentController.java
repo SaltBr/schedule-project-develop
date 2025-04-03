@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/schedules/{scheduleId}/comments") //이게...schedule 하위로 들어가야 하는 건가?
 @RequiredArgsConstructor
@@ -23,6 +25,15 @@ public class CommentController {
         return new ResponseEntity<>(commentResponseDto, HttpStatus.CREATED);
     }
 
+    //일정, 작성자 필터 조회
+    @GetMapping
+    public ResponseEntity<List<CommentResponseDto>> findCommentByFilter(
+            @PathVariable Long scheduleId,
+            @RequestParam(required = false) Long userId
+    ) {
+        return ResponseEntity.ok(commentService.findCommentsByFilter(scheduleId, userId));
+    }
+
     //댓글 수정
     @PatchMapping("/{commentId}")
     public ResponseEntity<CommentResponseDto> updateComment(
@@ -31,7 +42,8 @@ public class CommentController {
             @RequestBody CommentRequestDto requestDto,
             @SessionAttribute(value = "loginUser")UserResponseDto userResponseDto
         ){
-        return new ResponseEntity<>(commentService.updateComment(scheduleId, commentId, requestDto.getContents(), userResponseDto.getId()), HttpStatus.OK);
+        return ResponseEntity.ok(commentService.updateComment(scheduleId, commentId, requestDto.getContents(), userResponseDto.getId()));
+
     }
 
     //댓글 삭제

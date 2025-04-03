@@ -42,7 +42,7 @@ public class SessionUserController {
 
         //세션에 회원 정보 저장
         session.setAttribute(Const.LOGIN_USER, loginUser);
-        return new ResponseEntity<>(loginUser, HttpStatus.OK);
+        return ResponseEntity.ok(loginUser);
     }
 
     @PostMapping("/logout")

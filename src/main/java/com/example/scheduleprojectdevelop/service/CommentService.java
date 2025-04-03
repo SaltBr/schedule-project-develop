@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -32,6 +34,15 @@ public class CommentService {
 
         Comment savedComment = commentRepository.save(comment);
         return new CommentResponseDto(savedComment.getId(), savedComment.getContents(), userId);
+    }
+
+    //일정, 작성자 필터 댓글 조회
+    public List<CommentResponseDto> findCommentsByFilter(Long scheduleId, Long userId) {
+        List<Comment> comments = commentRepository.findCommentsByScheduleIdAndUserId(scheduleId, userId);
+        return comments.stream()
+                .map(CommentResponseDto::toDto)
+                .toList();
+
     }
 
     //댓글 수정
