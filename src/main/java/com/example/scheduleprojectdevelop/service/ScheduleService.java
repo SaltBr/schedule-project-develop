@@ -6,6 +6,7 @@ import com.example.scheduleprojectdevelop.entity.User;
 import com.example.scheduleprojectdevelop.repository.ScheduleRepository;
 import com.example.scheduleprojectdevelop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,9 +35,9 @@ public class ScheduleService {
     }
 
     //전체 조회
-    public List<ScheduleResponseDto> findAllSchedule() {
+    public List<ScheduleResponseDto> findAllSchedule(Pageable pageable) {
 
-        return scheduleRepository.findAll()
+        return scheduleRepository.findAll(pageable)
                 .stream()
                 .map(ScheduleResponseDto::toDto)
                 .toList();

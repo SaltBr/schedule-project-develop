@@ -3,9 +3,12 @@ package com.example.scheduleprojectdevelop.controller;
 import com.example.scheduleprojectdevelop.dto.schedule.ScheduleRequestDto;
 import com.example.scheduleprojectdevelop.dto.schedule.ScheduleResponseDto;
 import com.example.scheduleprojectdevelop.dto.user.UserResponseDto;
+import com.example.scheduleprojectdevelop.repository.ScheduleRepository;
 import com.example.scheduleprojectdevelop.service.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,7 @@ import java.util.List;
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
+    private final ScheduleRepository scheduleRepository;
 
     //일정 생성
     @PostMapping
@@ -28,9 +32,9 @@ public class ScheduleController {
 
     //일정 전체 조회
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedule() {
-        List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAllSchedule();
-        return ResponseEntity.ok(scheduleResponseDtoList);
+    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedule(@PageableDefault(size = 10) Pageable pageable) {
+        List<ScheduleResponseDto> schedules = scheduleService.findAllSchedule(pageable);
+        return ResponseEntity.ok(schedules);
     }
 
     //일정 단건 조회
